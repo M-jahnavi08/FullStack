@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: html(content=~{::div.content-wrapper})}">
+<head>
+    <title>My Profile</title>
+</head>
+<body>
+<div class="content-wrapper container mt-4 mb-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <div class="display-1 text-primary mb-3"><i class="bi bi-person-circle"></i></div>
+                    <h5 class="fw-bold mb-1" th:text="${user.fullName}">Student Name</h5>
+                </div>
+                <div class="list-group list-group-flush border-top">
+                    <a th:href="@{/student/dashboard}" class="list-group-item list-group-item-action"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+                    <a th:href="@{/student/profile}" class="list-group-item list-group-item-action active"><i class="bi bi-person me-2"></i> My Profile</a>
+                    <a th:href="@{/student/applications}" class="list-group-item list-group-item-action"><i class="bi bi-file-earmark-text me-2"></i> My Applications</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-person-lines-fill me-2"></i>Edit Profile & Resume</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form th:action="@{/student/profile/update}" method="post" enctype="multipart/form-data">
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Full Name</label>
+                                <input type="text" class="form-control bg-light" name="fullName" th:value="${user.fullName}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Email</label>
+                                <input type="email" class="form-control" th:value="${user.email}" disabled readonly>
+                                <small class="text-muted">Email cannot be changed.</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Phone Number</label>
+                                <input type="text" class="form-control bg-light" name="phone" th:value="${user.phone}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Location / City</label>
+                                <input type="text" class="form-control bg-light" name="location" th:value="${user.location}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Years of Experience</label>
+                                <input type="text" class="form-control bg-light" name="experience" th:value="${user.experience}" placeholder="e.g., 2 Years or Fresher">
+                            </div>
+                            
+                            <div class="col-12 mb-3">
+                                <label class="form-label fw-bold">Key Skills (comma separated)</label>
+                                <input type="text" class="form-control bg-light" name="skills" th:value="${user.skills}" placeholder="e.g., Java, Spring Boot, MySQL">
+                            </div>
+
+                            <div class="col-12 mb-4">
+                                <label class="form-label fw-bold">Resume (PDF/DOCX)</label>
+                                <div th:if="${user.resumePath != null}" class="mb-2 alert alert-info py-2">
+                                    <i class="bi bi-file-earmark-check-fill text-success me-2"></i> Current resume uploaded.
+                                </div>
+                                <input type="file" class="form-control" name="resumeFile" accept=".pdf,.doc,.docx">
+                                <small class="text-muted">Max size: 5MB. Uploading a new file will replace the old one.</small>
+                            </div>
+
+                            <div class="col-12 text-end">
+                                <button type="submit" class="btn btn-primary px-4 fw-bold"><i class="bi bi-save me-2"></i>Save Changes</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

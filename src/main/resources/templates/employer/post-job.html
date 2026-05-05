@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: html(content=~{::div.content-wrapper})}">
+<head>
+    <title>Post a Job</title>
+</head>
+<body>
+<div class="content-wrapper container mt-4 mb-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <div class="display-1 text-primary mb-3"><i class="bi bi-building"></i></div>
+                    <h5 class="fw-bold mb-1" sec:authentication="principal.user.fullName">Company</h5>
+                </div>
+                <div class="list-group list-group-flush border-top">
+                    <a th:href="@{/employer/dashboard}" class="list-group-item list-group-item-action"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+                    <a th:href="@{/employer/job/post}" class="list-group-item list-group-item-action active"><i class="bi bi-plus-circle me-2"></i> Post a Job</a>
+                    <a th:href="@{/employer/manage-jobs}" class="list-group-item list-group-item-action"><i class="bi bi-briefcase me-2"></i> Manage Jobs</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-pencil-square me-2"></i>Create New Job Posting</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form th:action="@{/employer/job/save}" method="post" th:object="${job}">
+                        
+                        <div class="row g-3">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label fw-bold">Job Title</label>
+                                <input type="text" class="form-control bg-light" th:field="*{title}" placeholder="e.g. Senior Java Developer" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Company Name</label>
+                                <input type="text" class="form-control bg-light" th:field="*{companyName}" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Category</label>
+                                <select class="form-select bg-light" th:field="*{category}" required>
+                                    <option value="IT / Software">IT / Software</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Human Resources">Human Resources</option>
+                                    <option value="Design">Design</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Location</label>
+                                <input type="text" class="form-control bg-light" th:field="*{location}" placeholder="e.g. New York or Remote" required>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Salary</label>
+                                <input type="text" class="form-control bg-light" th:field="*{salary}" placeholder="e.g. $80,000 - $100,000" required>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Experience Required</label>
+                                <input type="text" class="form-control bg-light" th:field="*{experienceRequired}" placeholder="e.g. 3-5 Years" required>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label class="form-label fw-bold">Required Skills (Comma separated)</label>
+                                <input type="text" class="form-control bg-light" th:field="*{skillsRequired}" placeholder="e.g. Java, Spring Boot, MySQL" required>
+                            </div>
+
+                            <div class="col-12 mb-4">
+                                <label class="form-label fw-bold">Job Description</label>
+                                <textarea class="form-control bg-light" th:field="*{description}" rows="6" placeholder="Describe the responsibilities, requirements, and benefits..." required></textarea>
+                            </div>
+
+                            <div class="col-12 text-end">
+                                <button type="submit" class="btn btn-success px-5 py-2 fw-bold shadow-sm"><i class="bi bi-send me-2"></i>Publish Job</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
