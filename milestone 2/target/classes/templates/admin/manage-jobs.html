@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: html(content=~{::div.content-wrapper})}">
+<head>
+    <title>Manage Jobs</title>
+</head>
+<body>
+<div class="content-wrapper container mt-4 mb-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm border-0 bg-dark text-white">
+                <div class="card-body text-center p-4">
+                    <div class="display-1 text-light mb-3"><i class="bi bi-shield-lock"></i></div>
+                    <h5 class="fw-bold mb-1" sec:authentication="principal.user.fullName">Admin</h5>
+                    <p class="text-muted small mb-0">System Administrator</p>
+                </div>
+                <div class="list-group list-group-flush border-top border-secondary">
+                    <a th:href="@{/admin/dashboard}" class="list-group-item list-group-item-action bg-dark text-white border-secondary"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+                    <a th:href="@{/admin/manage-users}" class="list-group-item list-group-item-action bg-dark text-white border-secondary"><i class="bi bi-people me-2"></i> Manage Users</a>
+                    <a th:href="@{/admin/manage-jobs}" class="list-group-item list-group-item-action bg-dark text-white active border-secondary"><i class="bi bi-briefcase me-2"></i> Manage Jobs</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <h3 class="fw-bold mb-4">Manage All Jobs</h3>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Job Title</th>
+                                    <th>Company</th>
+                                    <th>Posted Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="job : ${jobs}">
+                                    <td th:text="${job.id}">ID</td>
+                                    <td>
+                                        <a th:href="@{/job-details/{id}(id=${job.id})}" class="fw-bold text-decoration-none" target="_blank" th:text="${job.title}">Job Title</a>
+                                    </td>
+                                    <td th:text="${job.companyName}">Company</td>
+                                    <td th:text="${#temporals.format(job.postedDate, 'dd MMM yyyy')}">Date</td>
+                                    <td>
+                                        <a th:href="@{/admin/job/delete/{id}(id=${job.id})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this job? This will delete all associated applications.')">
+                                            <i class="bi bi-trash-fill"></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${jobs.empty}">
+                                    <td colspan="5" class="text-center py-5 text-muted">No jobs available in the system.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
